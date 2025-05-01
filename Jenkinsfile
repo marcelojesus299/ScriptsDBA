@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Clone do Repositório') {
             steps {
-                git 'https://github.com/marcelojesus299/ScriptsDBA.git'
+                git branch: 'main', url: 'https://github.com/marcelojesus299/ScriptsDBA.git'
             }
         }
 
