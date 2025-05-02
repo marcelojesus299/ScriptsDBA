@@ -10,9 +10,9 @@ pipeline {
 
         stage('Executar Flyway') {
             steps {
-                dir('sql') {
+                
                     bat 'flyway -configFiles=../flyway.conf migrate'
-                }
+                
             }
         }
 
