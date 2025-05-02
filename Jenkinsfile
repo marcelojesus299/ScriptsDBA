@@ -11,7 +11,7 @@ pipeline {
         stage('Executar Flyway') {
             steps {
                 
-                    bat 'flyway -configFiles=../flyway.conf migrate'
+                    bat 'flyway -configFiles=flyway.conf migrate'
                 
             }
         }
