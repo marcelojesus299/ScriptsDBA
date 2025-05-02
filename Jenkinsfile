@@ -20,7 +20,8 @@ pipeline {
             steps {
                 // Gera o diagrama do banco de dados usando o dbdiagram.io
                 dir('sql') {
-                    bat 'dbml generate --input database_schema.dbml --output db_diagram.png'
+                    bat 'C:\\Users\\jenkins\\AppData\\Roaming\\npm\\dbml generate --input database_schema.dbml --output db_diagram.png'
+
                 }
             }
         }
