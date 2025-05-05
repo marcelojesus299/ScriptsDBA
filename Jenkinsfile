@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    environment {
+        PATH = "C:\\Users\\marcelo.jesus\\AppData\\Roaming\\npm;${env.PATH}" 
+    }
+
     stages {
         stage('Clone do Repositório') {
             steps {
@@ -11,6 +15,22 @@ pipeline {
         stage('Executar Flyway') {
             steps {
                 bat 'flyway -configFiles=flyway.conf migrate'
+            }
+        }
+
+        stage('Gerar DBML com sql2dbml') {
+            steps {
+                dir('sql') {
+                    bat 'sql2dbml input.sql -o output.dbml'
+                }
+            }
+        }
+
+        stage('Gerar documentação dbdocs (local)') {
+            steps {
+                dir('sql') {
+                    bat 'dbdocs build output.dbml'
+                }
             }
         }
     }
