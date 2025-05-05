@@ -1,15 +1,15 @@
 -- Esquema: public
 CREATE SCHEMA IF NOT EXISTS public;
 
--- Tabela: produto
-CREATE TABLE IF NOT EXISTS produtos (
+-- Tabela: public.produtos
+CREATE TABLE IF NOT EXISTS public.produtos (
     id SERIAL PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
     preco NUMERIC(10,2) NOT NULL
 );
 
--- Tabela: cliente
-CREATE TABLE IF NOT EXISTS clientes (
+-- Tabela: public.clientes
+CREATE TABLE IF NOT EXISTS public.clientes (
     id SERIAL PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
     telefone VARCHAR(30),
@@ -17,21 +17,21 @@ CREATE TABLE IF NOT EXISTS clientes (
     endereco TEXT
 );
 
--- Tabela: pedidos
-CREATE TABLE IF NOT EXISTS pedidos (
+-- Tabela: public.pedidos
+CREATE TABLE IF NOT EXISTS public.pedidos (
     id SERIAL PRIMARY KEY,
     cliente_id INTEGER NOT NULL,
     data_pedido DATE NOT NULL,
-    FOREIGN KEY (cliente_id) REFERENCES cliente(id)
+    FOREIGN KEY (cliente_id) REFERENCES public.clientes(id)
 );
 
--- Tabela: itens_pedidos
-CREATE TABLE IF NOT EXISTS itens_pedidos (
+-- Tabela: public.itens_pedidos
+CREATE TABLE IF NOT EXISTS public.itens_pedidos (
     id SERIAL PRIMARY KEY,
     pedido_id INTEGER NOT NULL,
     produto_id INTEGER NOT NULL,
     quantidade INTEGER NOT NULL,
     preco_unitario NUMERIC(10,2) NOT NULL,
-    FOREIGN KEY (pedido_id) REFERENCES pedidos(id),
-    FOREIGN KEY (produto_id) REFERENCES produto(id)
+    FOREIGN KEY (pedido_id) REFERENCES public.pedidos(id),
+    FOREIGN KEY (produto_id) REFERENCES public.produtos(id)
 );
