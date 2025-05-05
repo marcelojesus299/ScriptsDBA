@@ -2,14 +2,14 @@
 CREATE SCHEMA IF NOT EXISTS public;
 
 -- Tabela: produto
-CREATE TABLE IF NOT EXISTS produto (
+CREATE TABLE IF NOT EXISTS produtos (
     id SERIAL PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
     preco NUMERIC(10,2) NOT NULL
 );
 
 -- Tabela: cliente
-CREATE TABLE IF NOT EXISTS cliente (
+CREATE TABLE IF NOT EXISTS clientes (
     id SERIAL PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
     telefone VARCHAR(30),
@@ -35,4 +35,3 @@ CREATE TABLE IF NOT EXISTS itens_pedidos (
     FOREIGN KEY (pedido_id) REFERENCES pedidos(id),
     FOREIGN KEY (produto_id) REFERENCES produto(id)
 );
-|
