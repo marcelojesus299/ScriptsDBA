@@ -26,7 +26,8 @@ pipeline {
             steps {
                 dir('sql') {
                     // Gerar o arquivo .dbml a partir do banco de dados atualizado
-                    bat "sql2dbml --db ${DB_URL} --user ${DB_USER} --password ${DB_PASSWORD} -o output.dbml"
+                    sql2dbml --postgres-url "postgres://postgres:P@$$w0rd@localhost:5432/evolve_teste" --output output.dbml
+
                 }
             }
         }
