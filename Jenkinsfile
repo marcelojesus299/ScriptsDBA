@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         PATH = "C:\\Users\\marcelo.jesus\\AppData\\Roaming\\npm;${env.PATH}" 
+		DBDOCS_USERNAME = 'Marcelo Bruno'
     }
 
     stages {
@@ -29,7 +30,8 @@ pipeline {
         stage('Gerar documentação dbdocs (local)') {
             steps {
                 dir('sql') {
-                    bat 'dbdocs build output.dbml'
+                    bat "dbdocs build output.dbml --username \"%DBDOCS_USERNAME%\""
+
                 }
             }
         }
