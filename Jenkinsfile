@@ -4,6 +4,9 @@ pipeline {
     environment {
         PATH = "C:\\Users\\marcelo.jesus\\AppData\\Roaming\\npm;${env.PATH}" 
         DBDOCS_USERNAME = 'Marcelo Bruno'
+        DB_URL = 'jdbc:postgresql://localhost:5432/evolve_teste'  // URL do banco de dados
+        DB_USER = 'postgres'                             // Usuário do banco de dados
+        DB_PASSWORD = 'P@$$w0rd'                           // Senha do banco de dados
     }
 
     stages {
@@ -19,10 +22,19 @@ pipeline {
             }
         }
 
-        stage('Gerar DBML com sql2dbml') {
+        stage('Gerar DBML a partir do banco') {
             steps {
                 dir('sql') {
-                    bat 'sql2dbml input.sql -o output.dbml'
+                    // Gerar o arquivo .dbml a partir do banco de dados atualizado
+                    bat "sql2dbml --db ${DB_URL} --user ${DB_USER} --password ${DB_PASSWORD} -o output.dbml"
+                }
+            }
+        }
+
+        stage('Verificar arquivo DBML gerado') {
+            steps {
+                dir('sql') {
+                    bat 'dir output.dbml'  // Verifica se o arquivo output.dbml foi gerado
                 }
             }
         }
