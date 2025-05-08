@@ -3,6 +3,11 @@ pipeline {
 
     environment {
         PATH = "C:\\Users\\marcelo.jesus\\AppData\\Roaming\\npm;${env.PATH}"
+        DBDOCS_USERNAME = 'Marcelo Bruno'
+        DB_URL = 'jdbc:postgresql://localhost:5432/evolve_test'
+        DB_USER = 'postgres'
+        DB_PASSWORD = 'P@$$w0rd'
+        PGPASSWORD = 'P@$$w0rd' // <- variável necessária para pg_dump
     }
 
     stages {
@@ -21,7 +26,7 @@ pipeline {
         stage('Exportar schema com pg_dump') {
             steps {
                 dir('sql') {
-                    bat 'set PGPASSWORD=P@$$w0rd && pg_dump -U postgres -h localhost -p 5432 -d evolve_test --schema-only > schema.sql'
+                    bat 'pg_dump -U %DB_USER% -h localhost -p 5432 -d evolve_test --schema-only > schema.sql'
                 }
             }
         }
@@ -29,14 +34,6 @@ pipeline {
         stage('Limpar funções do schema') {
             steps {
                 dir('sql') {
-                    writeFile file: 'clean-schema.ps1', text: '''
-$inputFile = "schema.sql"
-$outputFile = "schema_clean.sql"
-
-$content = Get-Content $inputFile -Raw
-$content = [regex]::Replace($content, "CREATE\\s+FUNCTION.*?\\$\\$.*?\\$\\$.*?;", "", 'Singleline,IgnoreCase')
-Set-Content -Path $outputFile -Value $content
-'''
                     bat 'powershell -ExecutionPolicy Bypass -File clean-schema.ps1'
                 }
             }
