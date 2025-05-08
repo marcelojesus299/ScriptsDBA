@@ -26,12 +26,7 @@ pipeline {
             steps {
                 dir('sql') {
                     bat '''
-                    pg_dump -U postgres -h localhost -p 5432 -d evolve_test ^
-                        --no-owner --no-comments ^
-                        --no-publications --no-subscriptions ^
-                        --no-privileges --no-tablespaces ^
-                        --no-security-labels --no-unlogged-table-data ^
-                        -s -f dump_limpo.sql
+					pg_dump -U postgres -h localhost -p 5432 -d evolve_test --no-owner --no-comments --no-publications --no-subscriptions --no-privileges --no-tablespaces --no-security-labels --no-unlogged-table-data -s -f dump_limpo.sql
                     '''
                 }
             }
