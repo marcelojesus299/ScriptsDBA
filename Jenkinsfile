@@ -7,6 +7,7 @@ pipeline {
         DB_URL = 'jdbc:postgresql://localhost:5432/evolve_test'
         DB_USER = 'postgres'
         DB_PASSWORD = 'P@$$w0rd'
+		PGPASSWORD = 'P@$$w0rd'  // <- esta linha resolve o problema
     }
 
     stages {
@@ -26,7 +27,7 @@ pipeline {
             steps {
                 dir('sql') {
                     bat '''
-					pg_dump -U postgres -h localhost -p 5432 -d evolve_test --no-owner --no-comments --no-publications --no-subscriptions --no-privileges --no-tablespaces --no-security-labels --no-unlogged-table-data -s -f dump_limpo.sql
+					pg_dump -U %DB_USER% -h localhost -p 5432 -d evolve_test --no-owner --no-comments --no-publications --no-subscriptions --no-privileges --no-tablespaces --no-security-labels --no-unlogged-table-data -s -f dump_limpo.sql
                     '''
                 }
             }
