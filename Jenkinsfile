@@ -2,12 +2,7 @@ pipeline {
     agent any
 
     environment {
-        PATH = "C:\\Users\\marcelo.jesus\\AppData\\Roaming\\npm;${env.PATH}" 
-        DBDOCS_USERNAME = 'Marcelo Bruno'
-        DB_URL = 'jdbc:postgresql://localhost:5432/evolve_test'
-        DB_USER = 'postgres'
-        DB_PASSWORD = 'P@$$w0rd'
-		PGPASSWORD = 'P@$$w0rd'  // <- esta linha resolve o problema
+        PATH = "C:\\Users\\marcelo.jesus\\AppData\\Roaming\\npm;${env.PATH}"
     }
 
     stages {
@@ -23,28 +18,34 @@ pipeline {
             }
         }
 
-        stage('Gerar Dump Estrutural (somente tabelas e chaves)') {
+        stage('Exportar schema com pg_dump') {
             steps {
                 dir('sql') {
-                    bat '''
-					pg_dump -U %DB_USER% -h localhost -p 5432 -d evolve_test --no-owner --no-comments --no-publications --no-subscriptions --no-privileges --no-tablespaces --no-security-labels --no-unlogged-table-data -s -f dump_limpo.sql
-                    '''
+                    bat 'set PGPASSWORD=P@$$w0rd && pg_dump -U postgres -h localhost -p 5432 -d evolve_test --schema-only > schema.sql'
                 }
             }
         }
 
-        stage('Gerar DBML a partir do dump') {
+        stage('Limpar funções do schema') {
             steps {
                 dir('sql') {
-                    bat 'dbml2sql dump_limpo.sql --postgres --output output.dbml'
+                    writeFile file: 'clean-schema.ps1', text: '''
+$inputFile = "schema.sql"
+$outputFile = "schema_clean.sql"
+
+$content = Get-Content $inputFile -Raw
+$content = [regex]::Replace($content, "CREATE\\s+FUNCTION.*?\\$\\$.*?\\$\\$.*?;", "", 'Singleline,IgnoreCase')
+Set-Content -Path $outputFile -Value $content
+'''
+                    bat 'powershell -ExecutionPolicy Bypass -File clean-schema.ps1'
                 }
             }
         }
 
-        stage('Verificar arquivo DBML gerado') {
+        stage('Gerar DBML com sql2dbml') {
             steps {
                 dir('sql') {
-                    bat 'dir output.dbml'
+                    bat 'sql2dbml schema_clean.sql -o output.dbml'
                 }
             }
         }
