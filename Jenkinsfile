@@ -46,5 +46,16 @@ pipeline {
                 }
             }
         }
+		
+		stage('Atualizar diagrama no dbdocs') {
+			steps {
+				dir('sql') {
+					withEnv(["DBDOCS_TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTA5NjE3LCJ0b2tlbiI6Ijc5NjZiMGVmMDVlZGY3NDMyODkyNzM5NjVkYzI2MDhjIiwiaWF0IjoxNzQ2NzUxMzcxfQ.LKipP6ZiD9CRYWv1IesxlxtDKUCDQXMB4zH4ekUBppk"]) {
+						bat 'dbdocs push output.dbml'
+            }
+        }
+    }
+}
+
     }
 }
