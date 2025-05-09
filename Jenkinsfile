@@ -51,8 +51,7 @@ pipeline {
 			steps {
 				dir('sql') {
 					bat 'dbdocs build output.dbml --project Teste-Marcelo'
-					bat 'start https://dbdocs.io/Marcelo%20Bruno/Teste-Marcelo'
-
+					bat 'echo Documentação disponível em: https://dbdocs.io/Marcelo%20Bruno/Teste-Marcelo'
 				}
 			}
 		}
