@@ -7,7 +7,7 @@ pipeline {
         DB_URL = 'jdbc:postgresql://localhost:5432/evolve_test'
         DB_USER = 'postgres'
         DB_PASSWORD = 'P@$$w0rd'
-        PGPASSWORD = 'P@$$w0rd' // <- variável necessária para pg_dump
+        PGPASSWORD = 'P@$$w0rd'
     }
 
     stages {
@@ -46,16 +46,16 @@ pipeline {
                 }
             }
         }
-		
-		stage('Atualizar diagrama no dbdocs') {
+
+		stage('Build local da documentação com dbdocs') {
 			steps {
 				dir('sql') {
-					withEnv(["DBDOCS_TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTA5NjE3LCJ0b2tlbiI6Ijc5NjZiMGVmMDVlZGY3NDMyODkyNzM5NjVkYzI2MDhjIiwiaWF0IjoxNzQ2NzUxMzcxfQ.LKipP6ZiD9CRYWv1IesxlxtDKUCDQXMB4zH4ekUBppk"]) {
-						bat 'dbdocs push output.dbml'
-            }
-        }
-    }
-}
+					bat 'dbdocs build output.dbml --project Teste-Marcelo'
+					bat 'powershell Start-Process https://dbdocs.io/Marcelo%20Bruno/Teste-Marcelo'
+				}
+			}
+		}
+
 
     }
 }
