@@ -1,0 +1,3 @@
+DROP TABLE IF EXISTS enderecos;
+DROP TABLE IF EXISTS cidades;
+DROP TABLE IF EXISTS estados;
