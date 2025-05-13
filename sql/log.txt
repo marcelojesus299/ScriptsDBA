@@ -1,0 +1,16 @@
+C:\Users\marcelo.jesus\AppData\Roaming\npm\node_modules\@dbml\cli\lib\cli\import.js:32
+    _logger.default.error(`\n    ${error.diags.map(diag => new _errors.SyntaxError(diag.filepath, diag)).map(({
+                                               ^
+
+TypeError: Cannot read properties of undefined (reading 'map')
+    at importHandler (C:\Users\marcelo.jesus\AppData\Roaming\npm\node_modules\@dbml\cli\lib\cli\import.js:32:48)
+    at Object.sql2dbml (C:\Users\marcelo.jesus\AppData\Roaming\npm\node_modules\@dbml\cli\lib\cli\index.js:36:23)
+    at Object.<anonymous> (C:\Users\marcelo.jesus\AppData\Roaming\npm\node_modules\@dbml\cli\bin\sql2dbml.js:4:19)
+    at Module._compile (node:internal/modules/cjs/loader:1376:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1435:10)
+    at Module.load (node:internal/modules/cjs/loader:1207:32)
+    at Module._load (node:internal/modules/cjs/loader:1023:12)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:135:12)
+    at node:internal/main/run_main_module:28:49
+
+Node.js v20.11.0

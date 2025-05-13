@@ -1,0 +1,73 @@
+Table "changelog" {
+  "id" integer [pk, not null]
+  "type" smallint
+  "version" "character varying(50)"
+  "description" "character varying(200)" [not null]
+  "name" "character varying(300)" [not null]
+  "checksum" "character varying(32)"
+  "installed_by" "character varying(100)" [not null]
+  "installed_on" timestamp [not null, default: `now()`]
+  "success" boolean [not null]
+}
+
+Table "clientes" {
+  "id_cliente" integer [pk, not null]
+  "nome" "character varying(100)" [not null]
+  "email" "character varying(100)" [unique, not null]
+  "idade" integer
+  "telefone" "character varying(20)"
+  "endereco" "character varying(255)"
+}
+
+Table "flyway_schema_history" {
+  "installed_rank" integer [pk, not null]
+  "version" "character varying(50)"
+  "description" "character varying(200)" [not null]
+  "type" "character varying(20)" [not null]
+  "script" "character varying(1000)" [not null]
+  "checksum" integer
+  "installed_by" "character varying(100)" [not null]
+  "installed_on" timestamp [not null, default: `now()`]
+  "execution_time" integer [not null]
+  "success" boolean [not null]
+
+  Indexes {
+    success [type: btree, name: "flyway_schema_history_s_idx"]
+  }
+}
+
+Table "fornecedores" {
+  "fornecedor_id" integer [pk, not null]
+  "nome" "character varying(255)" [not null]
+  "cnpj" "character varying(18)" [unique]
+  "endereco" text
+  "telefone" "character varying(15)"
+  "email" "character varying(255)"
+  "data_criacao" timestamp [default: `now()`]
+}
+
+Table "itens_pedido" {
+  "id_item" integer [pk, not null]
+  "id_pedido" integer [not null]
+  "id_produto" integer [not null]
+  "quantidade" integer [not null]
+}
+
+Table "pedidos" {
+  "id_pedido" integer [pk, not null]
+  "id_cliente" integer [not null]
+  "data_pedido" date [not null]
+  "data_entrega" date
+}
+
+Table "produtos" {
+  "id_produto" integer [pk, not null]
+  "nome" "character varying(100)" [not null]
+  "preco" numeric(10,2) [not null]
+}
+
+Ref "itens_pedido_id_pedido_fkey":"pedidos"."id_pedido" < "itens_pedido"."id_pedido"
+
+Ref "itens_pedido_id_produto_fkey":"produtos"."id_produto" < "itens_pedido"."id_produto"
+
+Ref "pedidos_id_cliente_fkey":"clientes"."id_cliente" < "pedidos"."id_cliente"
