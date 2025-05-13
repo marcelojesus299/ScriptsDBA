@@ -27,7 +27,7 @@ pipeline {
             }
             steps {
                 script {
-                    def rollbackFile = "rollback/U__V${params.ROLLBACK_VERSION}__rollback.sql"
+                    def rollbackFile = "sql/rollback/U__V${params.ROLLBACK_VERSION}__rollback.sql"
                     def rollbackCommand = "psql -U %DB_USER% -h localhost -d evolve_test -f ${rollbackFile}"
                     bat rollbackCommand
                 }
