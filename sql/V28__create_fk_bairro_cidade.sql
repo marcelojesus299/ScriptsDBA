@@ -1,0 +1,1 @@
+ALTER TABLE "bairro" ADD FOREIGN KEY ("cidade_id") REFERENCES "cidades" ("id");
